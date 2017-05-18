@@ -42,7 +42,7 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
               )) %>%
   
   addPopups(lng=college[college$Size500More=='YES',]$lon,lat=college[college$Size500More=='YES',]$lat,
-            popup =paste('<font color="#cc0000"size=2><b>',college[college$Size500More=='YES',]$Name,'</b></u></font>'),
+            popup =paste('<font color="#cc0000"size=1><b>',college[college$Size500More=='YES',]$Name,'</b></u></font>'),
             options = popupOptions(closeButton = TRUE),
             group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>COLLEGE</b>)'
   )%>%
@@ -66,9 +66,11 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
   ),
   options=layersControlOptions(collapsed = FALSE, autoZIndex = FALSE))%>%
   addLegend(colors="#FFFFFF",labels='',position = 'topleft',
-            title = HTML('<font color="#000000" size=10><b>City of Las Vegas</b></font>'))%>%
+            title = HTML('<font color="#000000" size=6><b>City of Las Vegas</b></font>'))%>%
   addLegend(layerId = 'unique',pal =pal,values=vegas$Labor_SQMI,na.label = 'No Available',
-            title = HTML('<font color="#FF3371" size=3><b>Labor Density (Age 18-62, Per Square Mile)</b></font>'))
+            title = HTML('<font color="#FF3371" size=2><b>Labor Density (Count Per Square Mile)</b></font>'))%>%
+  addControl(html = "<img src='https://raw.githubusercontent.com/jz1584/Map/master/las%20vegas.JPG' style='width:337px;height:150px;'>",
+             position = 'bottomleft')
             # labFormat = labelFormat('<b>',
             #                         suffix=c(' (Not affordable)',' (Less affordable)',' (Probably Affordable)',
             #                                  ' (More affordable)',' (Most affordable)')))
