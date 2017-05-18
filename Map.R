@@ -19,9 +19,6 @@ pal2<-colorBin(
 )
 
 
-
-
-
 leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
   fitBounds(lat1=36.337530 ,lng1=-115.390434,lat2=36.097106,lng2=-114.980507)%>%
   addPolylines(data=vegas,weight=2,color='blue',opacity=1,group = '<font color="#1E43A8" size=4><u>Las Vegas City</u></font>')%>%
@@ -31,17 +28,17 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
                 "Zip Code: ",vegas$ZCTA5CE10, "<br>",
                 "Zip Code Area: ",vegas$ALAND_SQMI, "   SqMile<br>",
                 "Median Household Income: $",vegas$MedianIncome,"<br>",
-                "Population: ",vegas$Population,'<br>',
-                "<b>Population Density: ",round(vegas$Labor_SQMI,0)," per SQMI</b>"
+                "General Population: ",vegas$Population,'<br>',
+                "<b>Labor Population Density: ",round(vegas$Labor_SQMI,0)," per SQMI</b>"
               )) %>%
   addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#08519C" size=4><u>Local Household Income</u></font>',
               color=~pal2(MedianIncome),
               popup = paste0(
                 "Zip Code: ",vegas$ZCTA5CE10, "<br>",
                 "Zip Code Area: ",vegas$ALAND_SQMI, "   SqMile<br>",
-                "Median Household Income: $",vegas$MedianIncome,"<br>",
-                "Population: ",vegas$Population,'<br>',
-                "<b>Population Density: ",round(vegas$Labor_SQMI,0)," per SQMI</b>"
+                "<b>Median Household Income: $",vegas$MedianIncome,"<br></b>",
+                "General Population: ",vegas$Population,'<br>',
+                "Labor Population Density: ",round(vegas$Labor_SQMI,0)," per SQMI"
               )) %>%
   
   addPopups(lng=college[college$Size500More=='YES',]$lon,lat=college[college$Size500More=='YES',]$lat,
