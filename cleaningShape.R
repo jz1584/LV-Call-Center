@@ -78,5 +78,12 @@ vegas$Labor_SQMI<-vegas$Year18_Year62/vegas$ALAND_SQMI #labor force: per sql mil
 
 
 
+#saving the dataset
+writePolyShape(vegas,'cleaned data/shapefile/vegas')
+
+
+
+
+
 
 
