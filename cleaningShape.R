@@ -77,23 +77,6 @@ vegas$Labor_SQMI<-vegas$Year18_Year62/vegas$ALAND_SQMI #labor force: per sql mil
 
 
 
-#Testing The data
-library(readr)
 
-kml<-read_file('Las Vegas Strip.kml')
-clrs <- RColorBrewer::brewer.pal(5, "YlOrRd")
-pal<-colorBin(
-  palette = clrs,
-  vegas$Labor_SQMI,
-  pretty = FALSE,
-  bins=c(1000,2000,3000,4000,5000)#setting 1000 as maximum index, any number outside would be grayed out. 
-)
-
-pal2<-colorBin(
-  palette = clrs,
-  vegas$MedianIncome,
-  pretty = FALSE,
-  bins=c(20000,40000,60000,80000,110000)#setting 1000 as maximum index, any number outside would be grayed out. 
-)
 
 
