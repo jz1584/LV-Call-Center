@@ -42,7 +42,7 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
               )) %>%
   
   addPopups(lng=college[college$Size500More=='YES',]$lon,lat=college[college$Size500More=='YES',]$lat,
-            popup =paste('<font color="#cc0000"size=1><b>',college[college$Size500More=='YES',]$Name,'</b></u></font>'),
+            popup =paste('<font color="#cc0000"size=2><b>',college[college$Size500More=='YES',]$Name,'</b></u></font>'),
             options = popupOptions(closeButton = TRUE),
             group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>COLLEGE</b>)'
   )%>%
@@ -74,15 +74,6 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
             # labFormat = labelFormat('<b>',
             #                         suffix=c(' (Not affordable)',' (Less affordable)',' (Probably Affordable)',
             #                                  ' (More affordable)',' (Most affordable)')))
-
-
-
-
-
-
-
-
-
 
 
 
