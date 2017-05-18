@@ -36,6 +36,28 @@ population<-read.csv('raw data/population ACS15/cleaned.csv')
 income<-read.csv('raw data/Income Data/cleaned.csv')
 
 
+#############################
+### Labor Market Demographics
+#############################
+# Labor Force
+labor<-read.csv('raw data/population ACS15/laborForce.csv')
+labor$Year18_Year62<-labor$Estimate..SEX.AND.AGE...18.years.and.over-labor$Estimate..SEX.AND.AGE...62.years.and.over
+labor<-labor[,c("Id2",'Year18_Year62')]
+
+# Colleges
+college<-read.csv('raw data/college/CollegeNavigator_Search_2017-05-18_11.08.17.csv')
+library(ggmap)
+college$lon<-NA
+college$lat<-NA
+for (i in 1:nrow(college)){
+  found<-geocode(as.character(college$Address[i]))
+  college$lon[i]<-found$lon
+  college$lat[i]<-found$lat
+}
+
+college$Size500More<-'NO'
+college$Size500More[college$Student.population>500]<-'YES'
+
 ###
 # MERGING
 ###
@@ -44,10 +66,15 @@ vegas@data<-merge(vegas@data,population,all.x=TRUE,by.x='ZCTA5CE10',by.y='ZIP')
 vegas@data<-vegas@data[order(vegas@data$order),]# back to original order 
 vegas@data<-merge(vegas@data,income,all.x=TRUE,by.x='ZCTA5CE10',by.y='ZIP')
 vegas@data<-vegas@data[order(vegas@data$order),]# back to original order 
+vegas@data<-merge(vegas@data,labor,all.x=TRUE,by.x='ZCTA5CE10',by.y='Id2')
+vegas@data<-vegas@data[order(vegas@data$order),]# back to original order 
+
 
 #Desity estimation
 vegas$ALAND_SQMI<-round(vegas$ALAND10*0.0000003861022,5)#corrected to the more accurate version
 vegas$PopDen_SQMI<-vegas$Population/vegas$ALAND_SQMI #population density: per sql mile #2015
+vegas$Labor_SQMI<-vegas$Year18_Year62/vegas$ALAND_SQMI #labor force: per sql mile #2015
+
 
 
 #Testing The data
@@ -57,9 +84,9 @@ kml<-read_file('Las Vegas Strip.kml')
 clrs <- RColorBrewer::brewer.pal(5, "YlOrRd")
 pal<-colorBin(
   palette = clrs,
-  vegas$PopDen_SQMI,
+  vegas$Labor_SQMI,
   pretty = FALSE,
-  bins=c(1000,3000,5000,7000,9000,10000)#setting 1000 as maximum index, any number outside would be grayed out. 
+  bins=c(1000,2000,3000,4000,5000)#setting 1000 as maximum index, any number outside would be grayed out. 
 )
 
 pal2<-colorBin(
@@ -68,56 +95,5 @@ pal2<-colorBin(
   pretty = FALSE,
   bins=c(20000,40000,60000,80000,110000)#setting 1000 as maximum index, any number outside would be grayed out. 
 )
-
-
-
-leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
-  fitBounds(lat1=36.337530 ,lng1=-115.390434,lat2=36.097106,lng2=-114.980507)%>%
-  addPolylines(data=vegas,weight=2,color='blue',opacity=1,group = '<font color="#1E43A8" size=4><u>Las Vegas City</u></font>')%>%
-  addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#cc0000" size=4><u>Population Density</u></font>',
-              color=~pal(PopDen_SQMI),
-              popup = paste0(
-                "Zip Code: ",vegas$ZCTA5CE10, "<br>",
-                "Zip Code Area: ",vegas$ALAND_SQMI, "   SqMile<br>",
-                "Median Household Income: $",vegas$MedianIncome,"<br>",
-                "Population: ",vegas$Population,'<br>',
-                "<b>Population Density: ",round(vegas$PopDen_SQMI,0)," per SQMI</b>"
-              )) %>%
-  addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#cc0000" size=4><u>Local Household Income</u></font>',
-              color=~pal2(MedianIncome),
-              popup = paste0(
-                "Zip Code: ",vegas$ZCTA5CE10, "<br>",
-                "Zip Code Area: ",vegas$ALAND_SQMI, "   SqMile<br>",
-                "Median Household Income: $",vegas$MedianIncome,"<br>",
-                "Population: ",vegas$Population,'<br>',
-                "<b>Population Density: ",round(vegas$PopDen_SQMI,0)," per SQMI</b>"
-              )) %>%
-  addMeasure(position = 'bottomright',completedColor = "#000000",activeColor = '#FF0000')%>%
-  addKML(kml,color = 'black',weight = 4,opacity = 1,fill = FALSE,markerType = 'marker',group ='<font color="#000000" size=4><u>Las Vegas Strip</u></font>')%>%
-  hideGroup(c(
-    '<font color="#cc0000" size=4><u>Local Household Income</u></font>',
-    '<font color="#cc0000" size=4><u>Population Density</u></font>',
-    '<font color="#000000" size=4><u>Las Vegas Strip</u></font>'
-  ))%>%
-  addLayersControl(overlayGroups =  c('<font color="#1E43A8" size=4><u>Las Vegas City</u></font>',
-                                      '<font color="#cc0000" size=4><u>Local Household Income</u></font>',
-                                      '<font color="#cc0000" size=4><u>Population Density</u></font>',
-                                      '<font color="#000000" size=4><u>Las Vegas Strip</u></font>'
-                                      
-                                      #'<font color="#008000" size=2><u>NYC Agencies Office Location</u></font>',
-  ),
-  options=layersControlOptions(collapsed = FALSE, autoZIndex = FALSE))%>%
-  addLegend(colors="#FFFFFF",labels='',position = 'topleft',
-            title = HTML('<font color="#000000" size=10><b>City of Las Vegas</b></font>'))
-
-
-
-
-
-
-
-
-
-
 
 
