@@ -31,6 +31,9 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
                 "General Population: ",vegas$Population,'<br>',
                 "<b>Labor Population Density: ",round(vegas$Labor_SQMI,0)," per SQMI</b>"
               )) %>%
+  addMarkers(lng=college$lon,lat=college$lat,popup = college$Name,group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>COLLEGE</b>)'
+  )%>%
+  
   addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#08519C" size=4><u>Local Household Income</u></font>',
               color=~pal2(MedianIncome),
               popup = paste0(
@@ -46,9 +49,7 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
             options = popupOptions(closeButton = TRUE),
             group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>COLLEGE</b>)'
   )%>%
-  addMarkers(lng=college$lon,lat=college$lat,popup = college$Name,group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>COLLEGE</b>)'
-  )%>%
-  
+
   addMeasure(position = 'bottomright',completedColor = "#000000",activeColor = '#FF0000')%>%
   addKML(kml,color = 'black',weight = 4,opacity = 1,fill = FALSE,markerType = 'marker',group ='<font color="#000000" size=4><u>Las Vegas Strip</u></font>')%>%
   hideGroup(c(
@@ -68,7 +69,9 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
   addLegend(colors="#FFFFFF",labels='',position = 'topleft',
             title = HTML('<font color="#000000" size=6><b>City of Las Vegas</b></font>'))%>%
   addLegend(layerId = 'unique',pal =pal,values=vegas$Labor_SQMI,na.label = 'No Available',
-            title = HTML('<font color="#FF3371" size=2><b>Labor Density (Count Per Square Mile)</b></font>'))%>%
+            title = HTML('<font color="#FF3371" size=2><b>Labor Density (Count / Square Mile)</b></font>'))%>%
+  addLegend(layerId = 'income',pal =pal2,values=vegas$MedianIncome,na.label = 'No Available',
+            title = HTML('<font color="#FF3371" size=2><b>Household Income( $ )</b></font>'))%>%
   addControl(html = "<img src='https://raw.githubusercontent.com/jz1584/Map/master/las%20vegas.JPG' style='width:337px;height:150px;'>",
              position = 'bottomleft')
             # labFormat = labelFormat('<b>',
