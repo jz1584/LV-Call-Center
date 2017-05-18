@@ -106,7 +106,9 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
                                       
                                       #'<font color="#008000" size=2><u>NYC Agencies Office Location</u></font>',
   ),
-  options=layersControlOptions(collapsed = FALSE, autoZIndex = FALSE))
+  options=layersControlOptions(collapsed = FALSE, autoZIndex = FALSE))%>%
+  addLegend(colors="#FFFFFF",labels='',position = 'topleft',
+            title = HTML('<font color="#000000" size=10><b>City of Las Vegas</b></font>'))
 
 
 
