@@ -1,4 +1,5 @@
 #library('osmar')
+#http://download.geofabrik.de/osm-data-in-gis-formats-free.pdf
 library('osmar')
 library('geosphere')
 lv.box <- corner_bbox(left =-115.3949,right = -114.9294,top = 36.3256,bottom =  35.9691)
