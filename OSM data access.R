@@ -42,12 +42,31 @@ library(leaflet)
 library(leaflet.extras)
 
 nv<-readOGR('OSM dataset/','gis.osm_pois_free_1',verbose = FALSE)
+nv<-as.data.frame(nv)
 
 
-leaflet(nv)%>%
+labor<-nv[nv$fclass%in%c('college','university','school'),]
+labor$timeStamp<-NA
+
+for (i in labor$osm_id){
+  timeSt<-get_osm(node(i))$nodes$attrs$timestamp
+  print(as.Date(timeSt))
+  labor$timeStamp[labor$osm_id==i]<-as.Date(timeSt)
+}
+
+
+College<-nv[nv$fclass%in%c('college','university'),]
+school<-nv[nv$fclass%in%c('school'),]
+
+
+
+
+
+leaflet()%>%
   addTiles()%>%
-  addCircles()
-
+  addCircles(lng = school$coords.x1,lat=school$coords.x2,
+             popup = paste(school$fclass,school$name),color='red',radius = 500)%>%
+  addMarkers(lng=College$coords.x1,lat=College$coords.x2,label = College$name)
 
 
 #check by id:
