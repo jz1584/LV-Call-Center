@@ -44,19 +44,9 @@ labor<-read.csv('raw data/population ACS15/laborForce.csv')
 labor$Year18_Year62<-labor$Estimate..SEX.AND.AGE...18.years.and.over-labor$Estimate..SEX.AND.AGE...62.years.and.over
 labor<-labor[,c("Id2",'Year18_Year62')]
 
-# Colleges
-college<-read.csv('raw data/college/CollegeNavigator_Search_2017-05-18_11.08.17.csv')
-library(ggmap)
-college$lon<-NA
-college$lat<-NA
-for (i in 1:nrow(college)){
-  found<-geocode(as.character(college$Address[i]))
-  college$lon[i]<-found$lon
-  college$lat[i]<-found$lat
-}
 
-college$Size500More<-'NO'
-college$Size500More[college$Student.population>500]<-'YES'
+
+
 
 ###
 # MERGING

@@ -8,12 +8,12 @@ library(maptools)
 library(leaflet)
 library(leaflet.extras)
 library(shiny)
-
+#library(mapview)
 
 #Load data
 kml<-read_file('Las Vegas Strip.kml')
 vegas<-readOGR('cleaned data/shapefile','vegas',verbose = FALSE)
-
+callCenters<-dget('cleaned data/callCenters')
 
 
 #Map block color Setting
@@ -36,10 +36,63 @@ pal2<-colorBin(
 
 
 
+local1<-makeIcon(
+  iconUrl = 'logo/callCenter.png',
+  iconWidth = 30, iconHeight = 30)
+
+
+#popup magines:
+
+callcenterImages<-c("<img src='https://raw.githubusercontent.com/jz1584/Map/master/CityCenterWest.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/TheCanyons.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/4245SGrand.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/FortApache.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/101ConventionCenter.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/The1785Office.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/3773Howard.PNG' style='width:337px;height:150px;'>",
+                    
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/3800HowardHC.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/3993HowardHC.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/Greystone.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/PointeFlamnigo.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/MiracleFlights.PNG' style='width:337px;height:150px;'>"
+                    )
+
+
+
+
+
+
+
 # Mapping Part:
 leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
   fitBounds(lat1=36.337530 ,lng1=-115.390434,lat2=36.097106,lng2=-114.980507)%>%
   addPolylines(data=vegas,weight=2,color='blue',opacity=1,group = '<font color="#1E43A8" size=4><u>Las Vegas City</u></font>')%>%
+  
+  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  locations of interest 
+  addMarkers(data=callCenters,lng = callCenters$lon,lat=callCenters$lat,
+             icon=local1,
+             popup=paste0(
+               'Location Name:',callCenters$name,"<br>",
+               'Annual Cost per Sqft:',callCenters$annual.cost.per.sf,"<br>",
+               callcenterImages
+             ),
+             group = '<font color="#1E43A8" size=4><u>Possible Call Center Locations</u></font>')%>%
+  
+  
+  # addPopups(
+  #   data=callCenters,lng = callCenters$lon,lat=callCenters$lat,popup=paste0(
+  #     'Location Name:',callCenters$name,"<br>",
+  #     'Annual Cost per Sqft:',callCenters$annual.cost.per.sf,"<br>",
+  #     callcenterImages
+  #   ),
+  #   group = '<font color="#1E43A8" size=4><u>Possible Call Center Locations</u></font>',
+  #   options = popupOptions(closeButton = TRUE)
+  # )%>%
+  
+  
+  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  locations of interest 
+  
   addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>Population Density,age 18-62</b>)',
               color=~pal(Labor_SQMI),
               popup = paste0(
@@ -67,6 +120,7 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
             options = popupOptions(closeButton = TRUE),
             group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>COLLEGE</b>)'
   )%>%
+  
 
   addMeasure(position = 'bottomright',completedColor = "#000000",activeColor = '#FF0000')%>%
   addKML(kml,color = 'black',weight = 4,opacity = 1,fill = FALSE,markerType = 'marker',group ='<font color="#000000" size=4><u>Las Vegas Strip</u></font>')%>%
@@ -76,6 +130,7 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
     '<font color="#000000" size=4><u>Las Vegas Strip</u></font>'
   ))%>%
   addLayersControl(overlayGroups =  c('<font color="#1E43A8" size=4><u>Las Vegas City</u></font>',
+                                      '<font color="#1E43A8" size=4><u>Possible Call Center Locations</u></font>',
                                       '<font color="#08519C" size=4><u>Local Household Income</u></font>',
                                       '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>Population Density,age 18-62</b>)',
                                       '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>COLLEGE</b>)',
