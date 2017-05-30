@@ -14,6 +14,16 @@ library(shiny)
 kml<-read_file('Las Vegas Strip.kml')
 vegas<-readOGR('cleaned data/shapefile','vegas',verbose = FALSE)
 callCenters<-dget('cleaned data/callCenters')
+callCenters$Cost<-NA
+callCenters[is.na(callCenters$annualCost.Max),]$Cost<-paste('$',callCenters[is.na(callCenters$annualCost.Max),]$annual.cost.per.sf)
+callCenters[!is.na(callCenters$annualCost.Max),]$Cost<-paste('$',callCenters[!is.na(callCenters$annualCost.Max),]$annual.cost.per.sf,'-','$',callCenters[!is.na(callCenters$annualCost.Max),]$annualCost.Max)
+callCenters$MeanCost<-rowMeans(callCenters[,c('annual.cost.per.sf','annualCost.Max')],na.rm = TRUE)
+
+
+
+
+
+
 
 
 #Map block color Setting
@@ -73,8 +83,9 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
   addMarkers(data=callCenters,lng = callCenters$lon,lat=callCenters$lat,
              icon=local1,
              popup=paste0(
-               'Location Name:',callCenters$name,"<br>",
-               'Annual Cost per Sqft:',callCenters$annual.cost.per.sf,"<br>",
+               '<b>Location:',callCenters$name,"<br>",
+               callCenters$address,"<br>",
+               '<font color="#FF0000">Annual Cost per Sqft: ',callCenters$Cost,"</font></b><br>",
                callcenterImages
              ),
              group = '<font color="#1E43A8" size=4><u>Possible Call Center Locations</u></font>')%>%
