@@ -13,6 +13,9 @@ library(shiny)
 #Load data
 kml<-read_file('Las Vegas Strip.kml')
 vegas<-readOGR('cleaned data/shapefile','vegas',verbose = FALSE)
+college<-dget('cleaned data/colleges/college')
+
+
 callCenters<-dget('cleaned data/callCenters')
 callCenters$Cost<-NA
 callCenters[is.na(callCenters$annualCost.Max),]$Cost<-paste('$',callCenters[is.na(callCenters$annualCost.Max),]$annual.cost.per.sf)
@@ -66,7 +69,7 @@ callcenterImages<-c("<img src='https://raw.githubusercontent.com/jz1584/Map/mast
                     "<img src='https://raw.githubusercontent.com/jz1584/Map/master/Greystone.PNG' style='width:337px;height:150px;'>",
                     "<img src='https://raw.githubusercontent.com/jz1584/Map/master/PointeFlamnigo.PNG' style='width:337px;height:150px;'>",
                     "<img src='https://raw.githubusercontent.com/jz1584/Map/master/MiracleFlights.PNG' style='width:337px;height:150px;'>"
-                    )
+)
 
 
 
@@ -100,19 +103,19 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
   #   group = '<font color="#1E43A8" size=4><u>Possible Call Center Locations</u></font>',
   #   options = popupOptions(closeButton = TRUE)
   # )%>%
-  
-  
-  # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  locations of interest 
-  
-  addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>Population Density,age 18-62</b>)',
-              color=~pal(Labor_SQMI),
-              popup = paste0(
-                "Zip Code: ",vegas$ZCTA5CE10, "<br>",
-                "Zip Code Area: ",vegas$ALAND_SQMI, "   SqMile<br>",
-                "Median Household Income: $",vegas$MedianInco,"<br>",
-                "General Population: ",vegas$Population,'<br>',
-                "<b>Labor Population Density: ",round(vegas$Labor_SQMI,0)," per SQMI</b>"
-              )) %>%
+
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  locations of interest 
+
+addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>Population Density,age 18-62</b>)',
+            color=~pal(Labor_SQMI),
+            popup = paste0(
+              "Zip Code: ",vegas$ZCTA5CE10, "<br>",
+              "Zip Code Area: ",vegas$ALAND_SQMI, "   SqMile<br>",
+              "Median Household Income: $",vegas$MedianInco,"<br>",
+              "General Population: ",vegas$Population,'<br>',
+              "<b>Labor Population Density: ",round(vegas$Labor_SQMI,0)," per SQMI</b>"
+            )) %>%
   addMarkers(lng=college$lon,lat=college$lat,popup = college$Name,group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>COLLEGE</b>)'
   )%>%
   
@@ -132,9 +135,9 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
             group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>COLLEGE</b>)'
   )%>%
   
-
+  
   addMeasure(position = 'bottomright',completedColor = "#000000",activeColor = '#FF0000')%>%
-  addKML(kml,color = 'black',weight = 4,opacity = 1,fill = FALSE,markerType = 'marker',group ='<font color="#000000" size=4><u>Las Vegas Strip</u></font>')%>%
+  addKML(kml,color = 'black',weight = 4,opacity = 1,fill = FALSE,markerType = 'circleMarker',group ='<font color="#000000" size=4><u>Las Vegas Strip</u></font>')%>%
   hideGroup(c(
     '<font color="#08519C" size=4><u>Local Household Income</u></font>',
     '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>COLLEGE</b>)',
@@ -158,9 +161,42 @@ leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
             title = HTML('<font color="#FF3371" size=2><b>Household Income( $ )</b></font>'))%>%
   addControl(html = "<img src='https://raw.githubusercontent.com/jz1584/Map/master/las%20vegas.JPG' style='width:337px;height:150px;'>",
              position = 'bottomleft')
-            # labFormat = labelFormat('<b>',
-            #                         suffix=c(' (Not affordable)',' (Less affordable)',' (Probably Affordable)',
-            #                                  ' (More affordable)',' (Most affordable)')))
+# labFormat = labelFormat('<b>',
+#                         suffix=c(' (Not affordable)',' (Less affordable)',' (Probably Affordable)',
+#                                  ' (More affordable)',' (Most affordable)')))
+
+
+
+
+
+
+
+
+
+
+
+a<-route(', NY 10007','Coney Island',structure = 'route',output = 'simple',mode='driving')
+library(geosphere)
+library(leaflet.extras)
+
+a<-geocode('City Hall Park, New York')
+b<-geocode('Coney Island')
+c<-geocode('brooklyn')
+leaflet()%>%addTiles()%>%
+  addGeodesicPolylines(lng=c(a$lon,b$lon),lat=c(a$lat,b$lat),steps=20000,popup = ('hello'),
+                       popupOptions =popupOptions(keepInView = TRUE) )%>%
+  addGeodesicPolylines(lng=c(a$lon,c$lon),lat=c(a$lat,c$lat),steps=10,popup = ('world'),
+                       popupOptions =popupOptions(keepInView = TRUE) )
+
+
+
+
+
+
+
+
+
+
 
 
 
