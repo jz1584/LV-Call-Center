@@ -10,12 +10,22 @@ LasVegas<-leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
   addMarkers(data=callCenters,lng = callCenters$lon,lat=callCenters$lat,
              icon=local1,
              popup=paste0(
-               '<b>Location:',callCenters$name,"<br>",
+               '<b><font color="#FF0000">ID=',callCenters$ID,'</font>    --------',callCenters$name,"----------<br>",
                callCenters$address,"<br>",
                '<font color="#FF0000">Annual Cost per Sqft: ',callCenters$Cost,"</font></b><br>",
-               '<b>Lease Cost Ranking: <font color="#FF0000" size=4>',callCenters$Cost.Rank,"</font></b><br>",
+               '<b>Lease Cost Ranking: <font color="#FF0000" size=2>',callCenters$Cost.Rank,' out of 12',"</font></b><br>",
+               '<b>Crime Risk Ranking: <font color="#FF0000" size=2>',callCenters$Safety.Rank,' out of 12',"</font></b><br>",
                callcenterImages
              ),
+             label=paste(callCenters$ID),labelOptions=labelOptions(noHide=T,direction = 'left',
+                                                                   style=list(
+                                                                     'color'='red',
+                                                                     'font-family'= 'serif',
+                                                                     'font-style'= 'italic',
+                                                                     'box-shadow' = '1px 1px rgba(0,0,0,0)',
+                                                                     'font-size' = '16px',
+                                                                     'border-color' = 'rgba(0,0,128,0.8)'
+                                                                   )),
              group = '<font color="#1E43A8" size=3><u><b>Possible Call Center Locations</b></u></font>')%>%
   
   addPulseMarkers(lng=Wynn$lon,lat=Wynn$lat,icon=makePulseIcon(heartbeat = 0.8,iconSize = 40),
@@ -136,11 +146,9 @@ LV%>%addPopups(lng=callCenters$lon,lat=callCenters$lat,
 
 
 ####################################################################
-# data saving
+#data saving
 
-
-dat.save<-callCenters[,c("name","address","lease.type","parking.ratio","Cost","Area","Cost.Rank",
-                         "travel.Rank")]
+dat.save<-callCenters[,c("ID","name","lease.type","Cost","Area","MeanCost","Crime_SQMI","Cost.Rank","Safety.Rank","travel.Rank","parking.ratio","address")]
 names(dat.save)[names(dat.save)=='Cost']<-'Cost.per.sqft'
 write.csv(dat.save,'cleaned data/real estate/OfficeProperties.csv',row.names = FALSE)
 
