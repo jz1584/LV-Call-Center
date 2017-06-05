@@ -36,7 +36,12 @@ callCenters<-callCenters[order(callCenters$ID), ]
 callCenters$Safety.Rank<-NA
 callCenters$Safety.Rank[order(callCenters$Crime_SQMI)]<-1:nrow(callCenters)
 
-
+#call center & population
+callCenters<-merge(callCenters,vegas@data[,c("Labor_SQMI","ZCTA5CE10")],all.x=TRUE,by='ZCTA5CE10')
+callCenters<-callCenters[order(callCenters$ID), ]
+callCenters$Labor_SQMI<-round(callCenters$Labor_SQMI,0)
+callCenters$LaborForce.Rank<-NA
+callCenters$LaborForce.Rank[order(callCenters$Labor_SQMI)]<-1:nrow(callCenters)
 
 
 #Map block color Setting
