@@ -34,7 +34,7 @@ callCenters$ID<-1:12
 callCenters<-merge(callCenters,crime,all.x=TRUE,by='ZCTA5CE10')
 callCenters<-callCenters[order(callCenters$ID), ]
 callCenters$Safety.Rank<-NA
-callCenters$Safety.Rank[order(callCenters$Total_Crim)]<-1:nrow(callCenters)
+callCenters$Safety.Rank[order(callCenters$Crime_SQMI)]<-1:nrow(callCenters)
 
 
 
