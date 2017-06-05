@@ -148,7 +148,7 @@ LV%>%addPopups(lng=callCenters$lon,lat=callCenters$lat,
 ####################################################################
 #data saving
 
-dat.save<-callCenters[,c("ID","name","lease.type","Cost","Area","MeanCost","Crime_SQMI","Labor_SQMI","Cost.Rank","Safety.Rank","travel.Rank","parking.ratio","address")]
+dat.save<-callCenters[,c("ID","name","lease.type","Cost","Area","MeanCost","Crime_SQMI","Labor_SQMI","Cost.Rank","Safety.Rank","LaborForce.Rank","travel.Rank","parking.ratio","address")]
 names(dat.save)[names(dat.save)=='Cost']<-'Cost.per.sqft'
 write.csv(dat.save,'cleaned data/real estate/OfficeProperties.csv',row.names = FALSE)
 
