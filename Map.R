@@ -54,7 +54,7 @@ addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#cc0
               "<b>2016 Crime Rate: ",round(vegas$Crime_SQMI,0)," per SQMI</b>"
             )) %>%
 
-addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#cc0000" size=3><u><b>Labor Market Demographics</b></u></font>(<b>Population Density,age 18-62</b>)',
+addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#6327A3" size=3><u><b>Labor Market Demographics</b></u></font>(<b>Population Density,age 18-62</b>)',
             color=~pal(Labor_SQMI),
             popup = paste0(
               "Zip Code: ",vegas$ZCTA5CE10, "<br>",
@@ -63,7 +63,7 @@ addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#cc0
               "General Population: ",vegas$Population,'<br>',
               "<b>Labor Population Density: ",round(vegas$Labor_SQMI,0)," per SQMI</b>"
             )) %>%
-  addMarkers(lng=college$lon,lat=college$lat,icon = school,popup = college$Name,group = '<font color="#cc0000" size=3><u><b>Labor Market Demographics</b></u></font>(<b>COLLEGE</b>)'
+  addMarkers(lng=college$lon,lat=college$lat,icon = school,popup = college$Name,group = '<font color="#6327A3" size=3><u><b>Labor Market Demographics</b></u></font>(<b>COLLEGE</b>)'
   )%>%
   
   addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#08519C" size=4><u><b>Local Household Income</b></u></font>',
@@ -87,7 +87,7 @@ addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#cc0
   addKML(kml,color = 'black',weight = 4,opacity = 1,fill = FALSE,markerType = 'circleMarker',group ='<font color="#000000" size=3><u><b>Las Vegas Strip</b></u></font>')%>%
   hideGroup(c(
     '<font color="#08519C" size=4><u><b>Local Household Income</b></u></font>',
-    '<font color="#cc0000" size=3><u><b>Labor Market Demographics</b></u></font>(<b>COLLEGE</b>)',
+    '<font color="#6327A3" size=3><u><b>Labor Market Demographics</b></u></font>(<b>COLLEGE</b>)',
     '<font color="#000000" size=3><u><b>Las Vegas Strip</b></u></font>',
     '<font color="#cc0000" size=3><u><b>Wynn Hotel</b></u></font> <b>(Red-Pulse Markers) with driving distance to call centers</b>',
     '<font color="#cc0000" size=3><u><b>Crime Rate 2016</b></u></font>(<b>Theft, Burglary, Assault, Vandalism, Robbery</b>)'
@@ -95,27 +95,27 @@ addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#cc0
   addLayersControl(overlayGroups =  c('<font color="#000000" size=3><u><b>Las Vegas City</b></u></font>',
                                       '<font color="#1E43A8" size=3><u><b>Possible Call Center Locations</b></u></font>',
                                       
-                                      '<font color="#cc0000" size=3><u><b>Labor Market Demographics</b></u></font>(<b>COLLEGE</b>)',
+                                      '<font color="#6327A3" size=3><u><b>Labor Market Demographics</b></u></font>(<b>COLLEGE</b>)',
                                       '<font color="#000000" size=3><u><b>Las Vegas Strip</b></u></font>',
                                       '<font color="#cc0000" size=3><u><b>Wynn Hotel</b></u></font> <b>(Red-Pulse Markers) with driving distance to call centers</b>'
                                       
                                       #'<font color="#008000" size=2><u>NYC Agencies Office Location</u></font>',
   ),baseGroups = c(
-    '<font color="#cc0000" size=3><u><b>Labor Market Demographics</b></u></font>(<b>Population Density,age 18-62</b>)',
+    '<font color="#6327A3" size=3><u><b>Labor Market Demographics</b></u></font>(<b>Population Density,age 18-62</b>)',
     '<font color="#cc0000" size=3><u><b>Crime Rate 2016</b></u></font>(<b>Theft, Burglary, Assault, Vandalism, Robbery</b>)',
     '<font color="#08519C" size=4><u><b>Local Household Income</b></u></font>'
     
   ),
   options=layersControlOptions(collapsed = FALSE, autoZIndex = FALSE))%>%
   addLegend(colors="#FFFFFF",labels='',position = 'topleft',
-            title = HTML('<a href="https://1drv.ms/x/s!AgegIQgxLba7gQTuOO6xHsy7LdBY" target="_blank"><font color="#000000" size=6><b>City of Las Vegas</b></font></a>'))%>%
+            title = HTML('<a href="https://1drv.ms/x/s!AgegIQgxLba7gQTuOO6xHsy7LdBY" target="_blank"><font color="#000000" size=3><b>City of Las Vegas</b></font></a>'))%>%
   addLegend(layerId = 'unique',pal =pal,values=vegas$Labor_SQMI,na.label = 'No Available',
             title = HTML('<font color="#FF3371" size=2><b>Labor Density</b></font><font size=1>(Count/Square Mile)</font>'))%>%
   addLegend(layerId = 'income',pal =pal2,values=vegas$MedianInco,na.label = 'No Available',
             title = HTML('<font color="#FF3371" size=2><b>Household Income $</b></font>'))%>%
   addLegend(layerId = 'crime',pal =pal.crime,values=vegas$Crime_SQMI,na.label = 'No Available',
             title = HTML('<font color="#FF3371" size=2><b>Crime Rate</b></font><font size=1>(Count/Square Mile)</font>'))%>%
-  addControl(html = "<img src='https://raw.githubusercontent.com/jz1584/Map/master/las%20vegas.JPG' style='width:337px;height:150px;'>",
+  addControl(html = "<img src='https://raw.githubusercontent.com/jz1584/Map/master/las%20vegas.PNG' style='width:337px;height:80px;'>",
              position = 'bottomleft')
 
 

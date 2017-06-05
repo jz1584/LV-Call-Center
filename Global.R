@@ -41,8 +41,11 @@ callCenters$Safety.Rank[order(callCenters$Crime_SQMI)]<-1:nrow(callCenters)
 
 #Map block color Setting
 clrs <- RColorBrewer::brewer.pal(5, "YlOrRd")
+
+clrsPop <- RColorBrewer::brewer.pal(5, "Purples")
+
 pal<-colorBin(
-  palette = clrs,
+  palette = clrsPop,
   vegas$Labor_SQMI,
   pretty = FALSE,
   bins=c(1000,2000,3000,4000,5000)#setting 1000 as maximum index, any number outside would be grayed out. 
