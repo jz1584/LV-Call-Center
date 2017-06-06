@@ -11,6 +11,7 @@ callCenters[callCenters$ID==6,]$lat<-six$lat
 # Mapping Part:
 LasVegas<-leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
   fitBounds(lat1=36.337530 ,lng1=-115.390434,lat2=36.097106,lng2=-114.980507)%>%
+  setMaxBounds(lat1=36.406915,lng1=-115.477295,lat2=36.010228,lng2=-114.966431)%>%
   addPolylines(data=vegas,weight=2,color='black',opacity=1,group = '<font color="#000000" size=3><u><b>Las Vegas City</b></u></font>')%>%
   
   # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  locations of interest 
