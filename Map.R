@@ -17,8 +17,8 @@ LasVegas<-leaflet()%>% addTiles()%>% #addProviderTiles("CartoDB.Positron")%>%
                '<b><font color="#FF0000">ID=',callCenters$ID,'</font>    --------',callCenters$name,"----------<br>",
                callCenters$address,"<br>",
                '<font color="#FF0000">Annual Cost per Sqft: ',callCenters$Cost,"</font></b><br>",
-               '<b>Lease Cost Ranking: <font color="#FF0000" size=2>',callCenters$Cost.Rank,' out of 12',"</font></b><br>",
-               '<b>Crime Risk Ranking: <font color="#FF0000" size=2>',callCenters$Safety.Rank,' out of 12',"</font></b><br>",
+               '<b>Lease Cost Ranking: <font color="#FF0000" size=2>',callCenters$Cost.Rank,' out of ',nrow(callCenters),"</font></b><br>",
+               '<b>Crime Risk Ranking: <font color="#FF0000" size=2>',callCenters$Safety.Rank,' out of ',nrow(callCenters),"</font></b><br>",
                callcenterImages
              ),
              label=paste(callCenters$ID),labelOptions=labelOptions(noHide=T,direction = 'left',

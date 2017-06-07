@@ -29,7 +29,7 @@ callCenters$id<-1:nrow(callCenters)
 
 #ranking
 callCenters$Cost.Rank<-NA
-callCenters$Cost.Rank2<-rank(callCenters$MeanCost,ties.method = 'min')
+callCenters$Cost.Rank<-rank(callCenters$MeanCost,ties.method = 'min')
 
 
 #transportation rank
@@ -46,14 +46,14 @@ callCenters$ZCTA5CE10<-stri_sub(callCenters$address,-5)
 callCenters<-merge(callCenters,crime,all.x=TRUE,by='ZCTA5CE10')
 callCenters<-callCenters[order(callCenters$id), ]
 callCenters$Safety.Rank<-NA
-callCenters$Safety.Rank[order(callCenters$Crime_SQMI)]<-1:nrow(callCenters)
+callCenters$Safety.Rank<-rank(callCenters$Crime_SQMI,ties.method = 'min')
 
 #call center & population
 callCenters<-merge(callCenters,vegas@data[,c("Labor_SQMI","ZCTA5CE10")],all.x=TRUE,by='ZCTA5CE10')
 callCenters<-callCenters[order(callCenters$id), ]
 callCenters$Labor_SQMI<-round(callCenters$Labor_SQMI,0)
 callCenters$LaborForce.Rank<-NA
-callCenters$LaborForce.Rank[order(callCenters$Labor_SQMI)]<-nrow(callCenters):1
+callCenters$LaborForce.Rank<-rank(-callCenters$Labor_SQMI,ties.method = 'min')
 
 
 #Map block color Setting
@@ -111,7 +111,18 @@ callcenterImages<-c("<img src='https://raw.githubusercontent.com/jz1584/Map/mast
                     "<img src='https://raw.githubusercontent.com/jz1584/Map/master/3993HowardHC.PNG' style='width:337px;height:150px;'>",
                     "<img src='https://raw.githubusercontent.com/jz1584/Map/master/Greystone.PNG' style='width:337px;height:150px;'>",
                     "<img src='https://raw.githubusercontent.com/jz1584/Map/master/PointeFlamnigo.PNG' style='width:337px;height:150px;'>",
-                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/MiracleFlights.PNG' style='width:337px;height:150px;'>"
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/MiracleFlights.PNG' style='width:337px;height:150px;'>",
+                    
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/CommercialCenter.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/1077ESahara.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/DesertInnOfficeCenter.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/DesertInnOfficeBuilding.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/FlamingoGrandPlaza.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/CenturyPlaza.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/DesertProfessionalPlaza.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/EastFlamingoBussinessCtr.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/ExecutiveCenter.PNG' style='width:337px;height:150px;'>",
+                    "<img src='https://raw.githubusercontent.com/jz1584/Map/master/RenaissanceOfficePark.PNG' style='width:337px;height:150px;'>"
 )
 
 
