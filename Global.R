@@ -130,9 +130,14 @@ callcenterImages<-c("<img src='https://raw.githubusercontent.com/jz1584/Map/mast
 
 #modify one location:
 six<-geocode('1650-1688 E Sahara Ave, Las Vegas, NV 89104')
+b1<-geocode('922-946 E Sahara Ave, Las Vegas, NV 89104')
+b2<-geocode('1094 NV-589, Las Vegas, NV 89104')
 
 callCenters[callCenters$id==6,]$lon<-six$lon
 callCenters[callCenters$id==6,]$lat<-six$lat
-
+callCenters[callCenters$ID=='B1',]$lon<-b1$lon
+callCenters[callCenters$ID=='B1',]$lat<-b1$lat
+callCenters[callCenters$ID=='B2',]$lon<-b2$lon
+callCenters[callCenters$ID=='B2',]$lat<-b2$lat
 
 
