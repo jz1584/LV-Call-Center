@@ -19,26 +19,38 @@ netdist<-dget('cleaned data/netdist')
 Wynn<-geocode('3131 S Las Vegas Blvd, Las Vegas, NV 89109')
 
 
+callCenters2<-dget('cleaned data/callCenters2')
+netdist2<-dget('cleaned data/netdist2')
+
+#merging Callcenter dataset
+callCenters$ID<-paste0('A',1:12)
+callCenters<-rbind(callCenters,callCenters2)
+callCenters$id<-1:nrow(callCenters)
+
+#ranking
+callCenters$Cost.Rank<-NA
+callCenters$Cost.Rank2<-rank(callCenters$MeanCost,ties.method = 'min')
 
 
 #transportation rank
 callCenters$travel.Rank<-NA
-callCenters$travel.Rank[order(callCenters$Wynn.distance.Mins)]<-1:nrow(callCenters)
+callCenters$travel.Rank<-rank(callCenters$Wynn.distance.Mins,ties.method = 'min')
+
 
 #call center & crime:
 crime<-vegas@data[,c("Theft","Burglary","Assault","Vandalism","Robbery","Total_Crim","Crime_SQMI","ZCTA5CE10")]
 crime$Crime_SQMI<-round(crime$Crime_SQMI,0)
 library(stringi)
 callCenters$ZCTA5CE10<-stri_sub(callCenters$address,-5)
-callCenters$ID<-1:12
+#callCenters$id<-1:12
 callCenters<-merge(callCenters,crime,all.x=TRUE,by='ZCTA5CE10')
-callCenters<-callCenters[order(callCenters$ID), ]
+callCenters<-callCenters[order(callCenters$id), ]
 callCenters$Safety.Rank<-NA
 callCenters$Safety.Rank[order(callCenters$Crime_SQMI)]<-1:nrow(callCenters)
 
 #call center & population
 callCenters<-merge(callCenters,vegas@data[,c("Labor_SQMI","ZCTA5CE10")],all.x=TRUE,by='ZCTA5CE10')
-callCenters<-callCenters[order(callCenters$ID), ]
+callCenters<-callCenters[order(callCenters$id), ]
 callCenters$Labor_SQMI<-round(callCenters$Labor_SQMI,0)
 callCenters$LaborForce.Rank<-NA
 callCenters$LaborForce.Rank[order(callCenters$Labor_SQMI)]<-nrow(callCenters):1
@@ -102,6 +114,14 @@ callcenterImages<-c("<img src='https://raw.githubusercontent.com/jz1584/Map/mast
                     "<img src='https://raw.githubusercontent.com/jz1584/Map/master/MiracleFlights.PNG' style='width:337px;height:150px;'>"
 )
 
+
+
+
+#modify one location:
+six<-geocode('1650-1688 E Sahara Ave, Las Vegas, NV 89104')
+
+callCenters[callCenters$id==6,]$lon<-six$lon
+callCenters[callCenters$id==6,]$lat<-six$lat
 
 
 

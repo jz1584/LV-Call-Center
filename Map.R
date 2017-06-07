@@ -1,9 +1,5 @@
 source('Global.R')
-#modify one location:
-six<-geocode('1650-1688 E Sahara Ave, Las Vegas, NV 89104')
 
-callCenters[callCenters$ID==6,]$lon<-six$lon
-callCenters[callCenters$ID==6,]$lat<-six$lat
 
 
 ##################################################################################################################################################################
@@ -133,6 +129,12 @@ LV<-LasVegas
 
 for(i in unique(netdist$ID)){
   LV<- addPolylines(LV, data = netdist[netdist$ID == i,],
+                    lat = ~lat, lng = ~lon,group ='<font color="#cc0000" size=3><u><b>Wynn Hotel</b></u></font> <b>(Red-Pulse Markers) with driving distance to call centers</b>',
+                    weight=2,color='blue',opacity=1)
+}
+
+for(i in unique(netdist2$ID)){
+  LV<- addPolylines(LV, data = netdist[netdist2$ID == i,],
                     lat = ~lat, lng = ~lon,group ='<font color="#cc0000" size=3><u><b>Wynn Hotel</b></u></font> <b>(Red-Pulse Markers) with driving distance to call centers</b>',
                     weight=2,color='blue',opacity=1)
 }
