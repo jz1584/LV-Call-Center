@@ -134,7 +134,7 @@ for(i in unique(netdist$ID)){
 }
 
 for(i in unique(netdist2$ID)){
-  LV<- addPolylines(LV, data = netdist[netdist2$ID == i,],
+  LV<- addPolylines(LV, data = netdist2[netdist2$ID == i,],
                     lat = ~lat, lng = ~lon,group ='<font color="#cc0000" size=3><u><b>Wynn Hotel</b></u></font> <b>(Red-Pulse Markers) with driving distance to call centers</b>',
                     weight=2,color='blue',opacity=1)
 }

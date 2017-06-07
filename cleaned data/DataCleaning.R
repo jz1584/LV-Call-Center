@@ -99,13 +99,13 @@ callCenters2$MeanCost<-rowMeans(callCenters2[,c('annual.cost.per.sf','annualCost
 
 #distance labeling
 netdist2<-callCenters2
-netdist2$ID<-1:nrow(netdist2)
+netdist2$ID<-c(1:6,8:11)
 Wynn<-geocode('3131 S Las Vegas Blvd, Las Vegas, NV 89109')
 netdist2$name<-as.character(netdist2$name)
 #netdist2[(nrow(netdist2)+1):(nrow(netdist2)*2),]<-NA #create empty rows
 netdist2[(nrow(netdist2)+1):(nrow(netdist2)*2),]$name<-'Wynn Hotel'
 netdist2[11:20,c("lon","lat")]<-Wynn
-netdist2[11:20,c('ID')]<-paste0('B',c(1:6,8:11))
+netdist2[11:20,c('ID')]<-c(1:6,8:11)
 
 
 callCenters2$Wynn.distance.Mins<-NA
