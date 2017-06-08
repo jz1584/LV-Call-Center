@@ -86,6 +86,8 @@ addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#632
   #           group = '<font color="#cc0000" size=4><u>Labor Market Demographics </u></font>(<b>COLLEGE</b>)'
   # )%>%
   
+  addPolylines(data=neveda.road,popup = neveda.road$FULLNAME,color = 'red',opacity = 1,weight = 2,
+               group='<font color="#cc0000" size=3><u><b>Major Highways</b></u></font>')%>%
   
   addMeasure(position = 'bottomright',completedColor = "#000000",activeColor = '#FF0000')%>%
   addKML(kml,color = 'black',weight = 4,opacity = 1,fill = FALSE,markerType = 'circleMarker',group ='<font color="#000000" size=3><u><b>Las Vegas Strip</b></u></font>')%>%
@@ -94,14 +96,16 @@ addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#632
     '<font color="#6327A3" size=3><u><b>Labor Market Demographics</b></u></font>(<b>COLLEGE</b>)',
     '<font color="#000000" size=3><u><b>Las Vegas Strip</b></u></font>',
     '<font color="#cc0000" size=3><u><b>Wynn Hotel</b></u></font> <b>(Red-Pulse Markers) with driving distance to call centers</b>',
-    '<font color="#cc0000" size=3><u><b>Crime Rate 2016</b></u></font>(<b>Theft, Burglary, Assault, Vandalism, Robbery</b>)'
+    '<font color="#cc0000" size=3><u><b>Crime Rate 2016</b></u></font>(<b>Theft, Burglary, Assault, Vandalism, Robbery</b>)',
+    '<font color="#cc0000" size=3><u><b>Major Highways</b></u></font>'
   ))%>%
   addLayersControl(overlayGroups =  c('<font color="#000000" size=3><u><b>Las Vegas City</b></u></font>',
                                       '<font color="#1E43A8" size=3><u><b>Possible Call Center Locations</b></u></font>',
                                       
                                       '<font color="#6327A3" size=3><u><b>Labor Market Demographics</b></u></font>(<b>COLLEGE</b>)',
                                       '<font color="#000000" size=3><u><b>Las Vegas Strip</b></u></font>',
-                                      '<font color="#cc0000" size=3><u><b>Wynn Hotel</b></u></font> <b>(Red-Pulse Markers) with driving distance to call centers</b>'
+                                      '<font color="#cc0000" size=3><u><b>Wynn Hotel</b></u></font> <b>(Red-Pulse Markers) with driving distance to call centers</b>',
+                                      '<font color="#cc0000" size=3><u><b>Major Highways</b></u></font>'
                                       
                                       #'<font color="#008000" size=2><u>NYC Agencies Office Location</u></font>',
   ),baseGroups = c(
@@ -145,10 +149,6 @@ LV%>%addPopups(lng=callCenters$lon,lat=callCenters$lat,
                options = popupOptions(closeButton = TRUE),
                group = '<font color="#cc0000" size=3><u><b>Wynn Hotel</b></u></font> <b>(Red-Pulse Markers) with driving distance to call centers</b>'
 )
-
-
-
-
 
 
 
