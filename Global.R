@@ -141,3 +141,8 @@ callCenters[callCenters$ID=='B2',]$lon<-b2$lon
 callCenters[callCenters$ID=='B2',]$lat<-b2$lat
 
 
+# major highways
+#original zip file -usa ziplevel####
+neveda.road<-readOGR('raw data/highway shapefile/','tl_2016_32_prisecroads',verbose = FALSE)
+neveda.road<-spTransform(neveda.road,CRS("+proj=longlat +datum=WGS84"))
+

@@ -116,7 +116,7 @@ addPolygons(data=vegas,fillOpacity = 0.5,stroke=FALSE,group = '<font color="#632
   ),
   options=layersControlOptions(collapsed = FALSE, autoZIndex = FALSE))%>%
   addLegend(colors="#FFFFFF",labels='',position = 'topleft',
-            title = HTML('<a href="https://1drv.ms/x/s!AgegIQgxLba7gQTuOO6xHsy7LdBY" target="_blank"><font color="#000000" size=3><b>City of Las Vegas</b></font></a>'))%>%
+            title = HTML('<font color="#000000" size=3><b>City of Las Vegas</b></font></a>'))%>%
   addLegend(layerId = 'unique',pal =pal,values=vegas$Labor_SQMI,na.label = 'No Available',
             title = HTML('<font color="#FF3371" size=2><b>Labor Density</b></font><font size=1>(Count/Square Mile)</font>'))%>%
   addLegend(layerId = 'income',pal =pal2,values=vegas$MedianInco,na.label = 'No Available',
